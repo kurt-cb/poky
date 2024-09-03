@@ -2,15 +2,15 @@ require gcc-common.inc
 
 # Third digit in PV should be incremented after a minor release
 
-PV = "13.2.0"
+PV = "12.2.0"
 
 # BINV should be incremented to a revision after a minor gcc release
 
-BINV = "13.2.0"
+BINV = "12.2.0"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
 
-DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
 
 LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
@@ -22,15 +22,13 @@ LIC_FILES_CHKSUM = "\
     file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
     file://COPYING.RUNTIME;md5=fe60d87048567d4fe8c8a0ed2448bcc8 \
 "
-# snapshot from git
-#RELEASE ?= "9b6bf076c11cba0f9ccdace63e8b4044b1a858ea"
-#BASEURI ?= "https://git.linaro.org/toolchain/gcc.git/snapshot/gcc-${RELEASE}.tar.gz"
-#SOURCEDIR = "gcc-${RELEASE}"
+# from git
+#RELEASE ?= "7092b7aea122a91824d048aeb23834cf1d19b1a1"
 #BASEURI ?= "https://repo.or.cz/official-gcc.git/snapshot/${RELEASE}.tar.gz;downloadfilename=gcc-${PV}-${RELEASE}.tar.gz"
 #SOURCEDIR ?= "official-gcc-${@'${RELEASE}'[0:7]}"
 
 # from snapshot
-#RELEASE ?= "13-20230520"
+#RELEASE ?= "12.1.0-RC-20220429"
 #SOURCEDIR ?= "gcc-${RELEASE}"
 #BASEURI ?= "https://gcc.gnu.org/pub/gcc/snapshots/${RELEASE}/gcc-${RELEASE}.tar.xz"
 
@@ -50,8 +48,7 @@ SRC_URI = "${BASEURI} \
            file://0008-libtool.patch \
            file://0009-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
            file://0010-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
-           file://0011-aarch64-Fix-include-paths-when-S-B.patch \
-           file://0012-Avoid-using-libdir-from-.la-which-usually-points-to-.patch \
+           file://0011-Avoid-using-libdir-from-.la-which-usually-points-to-.patch \
            file://0013-Ensure-target-gcc-headers-can-be-included.patch \
            file://0014-Don-t-search-host-directory-during-relink-if-inst_pr.patch \
            file://0015-libcc1-fix-libcc1-s-install-path-and-rpath.patch \
@@ -61,14 +58,13 @@ SRC_URI = "${BASEURI} \
            file://0019-Re-introduce-spe-commandline-options.patch \
            file://0020-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch \
            file://0021-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
-           file://0022-libatomic-Do-not-enforce-march-on-aarch64.patch \
-           file://0023-Fix-install-path-of-linux64.h.patch \
-           file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-           file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-           file://CVE-2023-4039.patch \
-           file://0026-aarch64-Fix-loose-ldpstp-check-PR111411.patch \
+           file://0023-libatomic-Do-not-enforce-march-on-aarch64.patch \
+           file://0024-Fix-install-path-of-linux64.h.patch \
+           file://0026-rust-recursion-limit.patch \
+           file://prefix-map-realpath.patch \
+           file://hardcoded-paths.patch \
 "
-SRC_URI[sha256sum] = "e275e76442a6067341a27f04c5c6b83d8613144004c0413528863dc6b5c743da"
+SRC_URI[sha256sum] = "e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
 B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
@@ -114,5 +110,5 @@ EXTRA_OECONF_PATHS = "\
     --with-build-sysroot=${STAGING_DIR_TARGET} \
 "
 
+# Is a binutils 2.26 issue, not gcc
 CVE_STATUS[CVE-2021-37322] = "cpe-incorrect: Is a binutils 2.26 issue, not gcc"
-CVE_STATUS[CVE-2023-4039] = "fixed-version: Fixed via CVE-2023-4039.patch included here. Set the status explictly to deal with all recipes that share the gcc-source"
