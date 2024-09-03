@@ -50,7 +50,7 @@ do_install () {
 INHIBIT_DEFAULT_DEPS = "1"
 DEPENDS = "gcc-runtime gcc-cross-${TARGET_ARCH}"
 
-BBCLASSEXTEND = "nativesdk"
+#BBCLASSEXTEND = "nativesdk"
 
 PACKAGES = "\
     ${PN}-dbg \

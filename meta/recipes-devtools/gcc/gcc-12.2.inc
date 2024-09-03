@@ -2,15 +2,15 @@ require gcc-common.inc
 
 # Third digit in PV should be incremented after a minor release
 
-PV = "12.3.0"
+PV = "12.2.0"
 
 # BINV should be incremented to a revision after a minor gcc release
 
-BINV = "12.3.0"
+BINV = "12.2.0"
 
 FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc:${FILE_DIRNAME}/gcc/backport:"
 
-DEPENDS =+ "mpfr gmp libmpc zlib zstd flex-native"
+DEPENDS =+ "mpfr gmp libmpc zlib flex-native"
 NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native flex-native zstd-native"
 
 LICENSE = "GPL-3.0-with-GCC-exception & GPL-3.0-only"
@@ -63,10 +63,8 @@ SRC_URI = "${BASEURI} \
            file://0026-rust-recursion-limit.patch \
            file://prefix-map-realpath.patch \
            file://hardcoded-paths.patch \
-           file://CVE-2023-4039.patch \
-           file://0026-aarch64-Fix-loose-ldpstp-check-PR111411.patch \
 "
-SRC_URI[sha256sum] = "949a5d4f99e786421a93b532b22ffab5578de7321369975b91aec97adfda8c3b"
+SRC_URI[sha256sum] = "e549cf9cf3594a00e27b6589d4322d70e0720cdd213f39beb4181e06926230ff"
 
 S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
 B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
@@ -113,4 +111,4 @@ EXTRA_OECONF_PATHS = "\
 "
 
 # Is a binutils 2.26 issue, not gcc
-CVE_CHECK_IGNORE += "CVE-2021-37322"
+CVE_STATUS[CVE-2021-37322] = "cpe-incorrect: Is a binutils 2.26 issue, not gcc"

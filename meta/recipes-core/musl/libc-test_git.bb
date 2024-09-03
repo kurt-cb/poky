@@ -16,7 +16,7 @@ SRC_URI = " \
     file://run-libc-ptests \
 "
 
-PV = "0+git${SRCPV}"
+PV = "0+git"
 
 S = "${WORKDIR}/git"
 
@@ -35,6 +35,7 @@ RDEPENDS:${PN} = " \
 
 RDEPENDS:${PN}-ptest = " \
      ${PN} \
+     musl-staticdev \
      sed \
 "
 
